@@ -1,0 +1,16 @@
+namespace 'dynamodb_tables' do
+
+  ROOT_PATH = File.dirname(File.expand_path(__FILE__))
+  spec = Gem::Specification.find_by_name 'TerraformDevKit'
+  load "#{spec.gem_dir}/tasks/devkit.rake"
+
+  begin
+    require 'rspec/core/rake_task'
+    RSpec::Core::RakeTask.new(:spec)
+  rescue LoadError
+    raise 'Rspec not found'
+  end
+
+  desc 'Calls the AWSpec tests'
+  task :custom_test, [:env] => :spec
+end
